@@ -1,0 +1,44 @@
+<div class="page-title">
+    <h2>Register</h2>
+    <p class="lead">
+    </p>
+</div>
+
+<div class="form-stuff">
+    <form>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input required ngModel name="email" #email="ngModel" type="text" id="email" class="form-control" placeholder="Email" >
+            <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Email required</div>
+        </div>
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input required ngModel name="firstName" #firstName="ngModel" type="text" id="firstName" class="form-control" placeholder="First name" >
+            <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">First name required</div>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input required ngModel name="lastName" #lastName="ngModel" type="text" id="lastName" class="form-control" placeholder="Last name" >
+            <div class="alert alert-danger" *ngIf="lastName.touched && !lastName.valid">Last name required</div>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input required ngModel name="username" #username="ngModel" type="text" id="username" class="form-control" placeholder="Username" >
+            <div class="alert alert-danger" *ngIf="username.touched && !username.valid">Username required</div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input required ngModel name="password" #password="ngModel" type="password" id="password" class="form-control" placeholder="Password" >
+            <div class="alert alert-danger" *ngIf="password.touched && !password.valid">Password required</div>
+        </div>
+        <div class="form-group">
+            <label for="repeatPassword">Repeat password</label>
+            <input required ngModel name="password" #repeatPassword="ngModel" type="password" id="repeatPassword" class="form-control" placeholder="Repeat password" >
+            <div class="alert alert-danger" *ngIf="repeatPassword.touched && !repeatPassword.valid">Repeat password required</div>
+        </div>
+        <button class="btn btn-primary" id="button1" (click)="getData(email.value, firstName.value, lastName.value, username.value, password.value, repeatPassword.value)" [disabled]="isDisabled">Register</button>
+        <div class="recaptcha-style">
+            <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
+        </div>                          
+    </form>
+</div>

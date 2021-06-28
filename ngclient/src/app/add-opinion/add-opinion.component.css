@@ -1,0 +1,19 @@
+.form-stuff{
+    padding-top: 30px;
+    padding-right: 700px;
+    padding-left: 700px;
+}
+
+.form-group{
+    padding-bottom: 15px;
+}
+
+.btn-primary{
+    width: 130px;
+    height: 40px;
+}
+
+.recaptcha-style{
+    padding-top: 20px;
+    padding-left: 100px;
+}
