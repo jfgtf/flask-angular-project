@@ -8,7 +8,7 @@
 /bazel-out
 
 #API_key
-/_helpers
+src/app/_helpers
 
 # dependencies
 /node_modules
