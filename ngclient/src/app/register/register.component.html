@@ -5,38 +5,44 @@
 </div>
 
 <div class="form-stuff">
-    <form>
+    <form method="POST" #UserRegisatrationForm="ngForm"  autocomplete="off">
         <div class="form-group">
-            <label for="email">Email</label>
-            <input required ngModel name="email" #email="ngModel" type="text" id="email" class="form-control" placeholder="Email" >
-            <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Email required</div>
+            <div class="input-field">
+            <input required maxlength="20" ngModel name="email" #email="ngModel" type="email" class="form-control validate text email required" placeholder="Email">
+            <label for="email" data-error="Invalid email"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="firstName">First name</label>
-            <input required ngModel name="firstName" #firstName="ngModel" type="text" id="firstName" class="form-control" placeholder="First name" >
-            <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">First name required</div>
+            <div class="input-field">
+            <input required minlength="3" maxlength="20" ngModel name="firstName" #firstName="ngModel" type="text" id="firstName" class="form-control validate" placeholder="First name" >
+            <label for="firstName" [attr.data-error]="firstName.errors != null?(firstName.errors.required? 'Required Field' :'Minimum 3 characters needed'):''"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input required ngModel name="lastName" #lastName="ngModel" type="text" id="lastName" class="form-control" placeholder="Last name" >
-            <div class="alert alert-danger" *ngIf="lastName.touched && !lastName.valid">Last name required</div>
+            <div class="input-field">
+            <input required minlength="3" maxlength="20" ngModel name="lastName" #lastName="ngModel" type="text" id="lastName" class="form-control validate" placeholder="Last name" >
+            <label for="lastName" [attr.data-error]="lastName.errors != null?(lastName.errors.required? 'Required Field' :'Minimum 3 characters needed'):''"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input required ngModel name="username" #username="ngModel" type="text" id="username" class="form-control" placeholder="Username" >
-            <div class="alert alert-danger" *ngIf="username.touched && !username.valid">Username required</div>
+            <div class="input-field">
+            <input required minlength="3" maxlength="20" ngModel name="username" #username="ngModel" type="text" id="username" class="form-control validate" placeholder="Username" >
+            <label for="username" [attr.data-error]="username.errors != null?(username.errors.required? 'Required Field' :'Minimum 3 characters needed'):''"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input required ngModel name="password" #password="ngModel" type="password" id="password" class="form-control" placeholder="Password" >
-            <div class="alert alert-danger" *ngIf="password.touched && !password.valid">Password required</div>
+            <div class="input-field">
+            <input required minlength="3" maxlength="20" ngModel name="password" #password="ngModel" type="password" id="password" class="form-control validate" placeholder="Password" (change)="getPassword(password.value)" >
+            <label for="password" [attr.data-error]="password.errors != null?(password.errors.required? 'Required Field' :'Minimum 3 characters needed'):''"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="repeatPassword">Repeat password</label>
-            <input required ngModel name="password" #repeatPassword="ngModel" type="password" id="repeatPassword" class="form-control" placeholder="Repeat password" >
-            <div class="alert alert-danger" *ngIf="repeatPassword.touched && !repeatPassword.valid">Repeat password required</div>
+            <div class="input-field">
+            <input required minlength="3" maxlength="20" ngModel name="repeatPassword" #repeatPassword="ngModel" type="password" id="repeatPassword" class="form-control validate" placeholder="Repeat password" [pattern]="passwordPattern" >
+            <label for="repeatPassword" data-error="Password must match"></label>    
+            </div>
         </div>
-        <button class="btn btn-primary" id="button1" (click)="getData(email.value, firstName.value, lastName.value, username.value, password.value, repeatPassword.value)" [disabled]="isDisabled">Register</button>
+        <button class="btn btn-primary" id="button1" click="test()" [disabled]="!UserRegisatrationForm.valid || isDisabled">Register</button>
         <div class="recaptcha-style">
             <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
         </div>                          

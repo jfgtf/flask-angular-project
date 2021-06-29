@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,18 +8,15 @@ import { Component} from '@angular/core';
 })
 
 export class RegisterComponent{ 
-  data_to_db = [''];
   isDisabled = true;
+
+  passwordPattern = '';
+
+  getPassword(s:string){
+    this.passwordPattern = s;
+  }
 
   getMsgFromBaby() {
     this.isDisabled = false;
-  }
-
-  getData(email: string, firstName: string, lastName: string, username: string, password: string, repeatPassword: string ){
-    this.data_to_db = [email, firstName, lastName, username, password, repeatPassword];
-  }
-
-  test2(){
-    return this.data_to_db;
   }
 }
