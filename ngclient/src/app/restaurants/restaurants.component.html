@@ -1,0 +1,26 @@
+<div class="page-title">
+  <h2>Map with restaurants</h2>
+  <p class="lead">
+  </p>
+</div>
+
+<div class="map-style" id="map">
+</div>
+
+<div class="nav-repair">
+<div class="container-fluid">
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+      <ul class="nav navbar-nav">
+      <li><a id="len8" class="hoverable" routerLink="/restaurants/add-opinion">Add an opinion</a></li>
+      </ul>
+  </div>
+  </nav>
+</div>
+</div>
+
+<form (ngSubmit)="onSubmit($event)">
+  <label for="searchFor">Search for opinions</label><br>
+  <br>
+  <input class="searchBar" name="search" placeholder="Search for opinions...">
+</form>
