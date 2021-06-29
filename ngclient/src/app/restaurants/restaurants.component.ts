@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader'
+import { getAPIkey } from '../_helpers/help-API-key';
 
 @Component({
   selector: 'app-restaurants',
@@ -14,7 +15,7 @@ export class RestaurantsComponent implements OnInit {
 
   ngOnInit(): void {
     let loader = new Loader({
-      apiKey: 'AIzaSyD6WQvbBUddYIN5o2wHrk4vJs-ZBT18StY'
+      apiKey: getAPIkey()
     })
 
     loader.load().then(() => {
