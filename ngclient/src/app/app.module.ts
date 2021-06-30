@@ -35,7 +35,7 @@ import { AddOpinionComponent } from './add-opinion/add-opinion.component';
     NotFoundComponent,
     RecaptchaComponent,
     OpinionsComponent,
-    AddOpinionComponent
+    AddOpinionComponent,
   ],
   imports: [
     FormsModule,

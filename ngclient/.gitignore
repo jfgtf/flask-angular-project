@@ -7,6 +7,9 @@
 # Only exists if Bazel was run
 /bazel-out
 
+#API_key
+src/app/_helpers
+
 # dependencies
 /node_modules
 
