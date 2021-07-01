@@ -1,8 +1,7 @@
 import re
-import markupsafe
 from myapplication import db
 from myapplication.models import Users
-from flask import Blueprint, render_template, redirect, request , url_for, flash, jsonify
+from flask import Blueprint, render_template, redirect,request , url_for, flash, jsonify
 from flask_login import login_required, logout_user, login_user, current_user 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_restful import Resource, reqparse
@@ -19,22 +18,12 @@ def check_email(email: str) -> bool:
 
 class RegisterApi(Resource):
     def post(self):
-            req_parse = reqparse.RequestParser(bundle_errors=True)
-            req_parse.add_argument('email', type=str, required=True, help='No email provided', location='json')
-            req_parse.add_argument('firstName', type=str, required=True, help='No firstName provided', location='json')
-            req_parse.add_argument('lastName', type=str, required=True, help='No lastName provided', location='json')
-            req_parse.add_argument('username', type=str, required=True, help='No username provided', location='json')
-            req_parse.add_argument('password', type=str, required=True, help='No password provided', location='json')
-            req_parse.add_argument('repeatPassword', type=str, required=True, help='No repeat password provided', location='json')
-
-            args = req_parse.parse_args()
-
-            email = args.get('email')
-            firstName = args.get('firstName')
-            lastName = args.get('lastName')
-            username = args.get('username')
-            password = args.get('password')
-            repeatPassword = args.get('repeatPassword')
+            email = request.form.get("email")
+            firstName = request.form.get("firstName")
+            lastName = request.form.get("lastName")
+            username = request.form.get("username")
+            password = request.form.get("password")
+            repeatPassword = request.form.get("repeatPassword")
 
             email = escape(email)
             firstName = escape(firstName)
@@ -82,14 +71,8 @@ class RegisterApi(Resource):
 
 class LoginApi(Resource):
     def post(self):
-        req_parse = reqparse.RequestParser(bundle_errors=True)
-        req_parse.add_argument('email')
-        req_parse.add_argument('password')
-
-        args = req_parse.parse_args()
-
-        email = args.get('email')
-        password = args.get('email')
+        email = request.form.get("email")
+        password = request.form.get('password')
 
         email = escape(email)
         password = escape(password)

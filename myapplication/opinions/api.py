@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from myapplication.models import Opinions
 from flask_restful import Resource, reqparse
 from myapplication import db
@@ -10,20 +10,11 @@ def OpinionsApi(Resource):
         return jsonify(opinions)
 
     def post(self):
-        req_parse = reqparse.RequestParser(bundle_errors=True)
-        req_parse.add_argument('name_of_restaurant', type=str, required=True, help='No name_of_restaurant provided', location='json')
-        req_parse.add_argument('city_of_restaurant', type=str, required=True, help='No city_of_restaurant provided', location='json')
-        req_parse.add_argument('type_of_restaurant', type=str, required=True, help='No type_of_restaurant provided', location='json')
-        req_parse.add_argument('opinion', type=str, required=True, help='No opinion provided', location='json')
-        req_parse.add_argument('user_id', type=int, required=True, help='No user_id provided', location='json')
-
-        args = req_parse.parse_args()
-
-        name_of_restaurant = args.get('name_of_restaurant')
-        city_of_restaurant = args.get('city_of_restaurant')
-        type_of_restaurant = args.get('type_of_restaurant')
-        opinion = args.get('opinion')
-        user_id = args.get('user_id')
+        name_of_restaurant = request.form.get("name_of_restaurant")
+        city_of_restaurant = request.form.get("city_of_restaurant")
+        type_of_restaurant = request.form.get("type_of_restaurant")
+        opinion = request.form.get("opinion")
+        user_id = request.form.get("user_id")
 
         name_of_restaurant = escape(name_of_restaurant)
         city_of_restaurant = escape(city_of_restaurant)
