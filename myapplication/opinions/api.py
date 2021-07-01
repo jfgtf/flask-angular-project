@@ -3,12 +3,14 @@ from myapplication.models import Opinions
 from flask_restful import Resource, reqparse
 from myapplication import db
 from markupsafe import escape
+from myapplication.auth.auth import token_required
 
 def OpinionsApi(Resource):
     def get(self):
         opinions = Opinions.query.all()
         return jsonify(opinions)
 
+    @token_required
     def post(self):
         name_of_restaurant = request.form.get("name_of_restaurant")
         city_of_restaurant = request.form.get("city_of_restaurant")
@@ -16,10 +18,10 @@ def OpinionsApi(Resource):
         opinion = request.form.get("opinion")
         user_id = request.form.get("user_id")
 
-        name_of_restaurant = escape(name_of_restaurant)
-        city_of_restaurant = escape(city_of_restaurant)
-        type_of_restaurant = escape(type_of_restaurant)
-        opinion = escape(opinion)
+        name_of_restaurant = str(escape(name_of_restaurant))
+        city_of_restaurant = str(escape(city_of_restaurant))
+        type_of_restaurant = str(escape(type_of_restaurant))
+        opinion = str(escape(opinion))
         #user_id = escape(user_id)
 
         if name_of_restaurant == '':

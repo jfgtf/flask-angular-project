@@ -1,20 +1,14 @@
 import re
-from myapplication import db
+from myapplication import db, app
 from myapplication.models import Users
 from flask import Blueprint, render_template, redirect,request , url_for, flash, jsonify
 from flask_login import login_required, logout_user, login_user, current_user 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_restful import Resource, reqparse
 from markupsafe import escape
-# Think about flask_wtf... FlaskForm, wtforms
-
-def check_email(email: str) -> bool:
-	regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
-	if re.search(regex, email):
-		return True
-	else:
-		return False
-
+import jwt
+import datetime
+from myapplication.auth.auth import check_email, token_required
 
 class RegisterApi(Resource):
     def post(self):
@@ -25,12 +19,12 @@ class RegisterApi(Resource):
             password = request.form.get("password")
             repeatPassword = request.form.get("repeatPassword")
 
-            email = escape(email)
-            firstName = escape(firstName)
-            lastName = escape(lastName)
-            username = escape(username)
-            password = escape(password)
-            repeatPassword = escape(repeatPassword)
+            email = str(escape(email))
+            firstName = str(escape(firstName))
+            lastName = str(escape(lastName))
+            username = str(escape(username))
+            password = str(escape(password))
+            repeatPassword = str(escape(repeatPassword))
 
             user = Users.query.filter_by(email=email).first()
 
@@ -66,6 +60,7 @@ class RegisterApi(Resource):
                 username=username, password=password)
             db.session.add(new_user)
             db.session.commit()
+            #token = jwt.encode({})
             return {'email': new_user.email}, 200
             #return jsonify(new_user)
 
@@ -74,8 +69,8 @@ class LoginApi(Resource):
         email = request.form.get("email")
         password = request.form.get('password')
 
-        email = escape(email)
-        password = escape(password)
+        email = str(escape(email))
+        password = str(escape(password))
 
         user = Users.query.filter_by(email=email).first()
 
@@ -86,89 +81,6 @@ class LoginApi(Resource):
             return {'message': {'password is incorrect'}}, 400
 
         else:
-            return {'email': user.email, 'username': user.username}, 200
+            token = jwt.encode({'email': email, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=20)}, app.config)
+            return {'token': token.decode('UTF-8')}, 200
             #return jsonify(user), 200
-
-        
-
-
-
-
-
-
-
-
-            
-
-
-
-
-"""@auth.route('/register', methods=['GET', 'POST'])
-def register_get():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        firstname = request.form.get('firstName')
-        lastname = request.form.get('lastName')
-        username = request.form.get('username')
-        password = request.form.get('password')
-        repeat_password = request.form.get('repeatPassword')
-
-        email = escape(email)
-        firstname = escape(firstname)
-        lastname = escape(lastname)
-        username = escape(username)
-        password = escape(password)
-        repeat_password = escape(password)
-
-        user = Users.query.filter_by(email=email).first()
-
-        if user:
-             pass
-            
-        elif password != repeat_password:
-            pass
-
-        else:
-            password = generate_password_hash(password)
-            new_user =  Users(email=email, first_name=firstname, last_name=lastname, \
-                 username=username, password=password )
-            db.session.add(new_user)
-            db.session.commit()
-            
-            # return
-
-@auth.route('/api/register', methods=['GET'])
-def register_check(result: bool, msg: str):
-        if result == False:
-            return {"message"}
-        else:
-            return {"message": "account has been created"}, 200
-
-
-@auth.route('/login', methods=['GET', 'POST'])
-def login_get():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        user = Users.query.filter_by(email=email)
-        if user:
-            if check_password_hash(user.password, password):
-                flash("You are logged in!", category='success')
-                login_user(user, remember=True)
-                # return
-
-            else:
-                flash("Incorrect password!", category='error')
-        
-        else:
-            flash("{} doesn't exist in database!".format(email), category='error')
-
-    # return
-
-@auth.route('/logout')
-@login_required
-def logout_get():
-    logout_user()
-    #return"""
-
