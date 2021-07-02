@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RecaptchaModule } from "ng-recaptcha";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
@@ -39,6 +40,7 @@ import { AddOpinionComponent } from './add-opinion/add-opinion.component';
   ],
   imports: [
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RecaptchaModule,
     BrowserModule,

@@ -17,3 +17,12 @@
     padding-top: 20px;
     padding-left: 10px;
 }
+
+.label-success{
+    background-color: black;
+    color:green;
+}
+
+.label-error{
+    color:red;
+}
