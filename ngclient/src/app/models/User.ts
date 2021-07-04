@@ -1,7 +1,4 @@
-export interface User{
-    email: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    password: string;
-}
+export class User {
+    email?: string;
+    password?: string;
+  }

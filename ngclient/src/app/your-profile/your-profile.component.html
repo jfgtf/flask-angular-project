@@ -1,3 +1,2 @@
-<form (ngSubmit)="onSubmit($event)">
-    <input name="player" value="Name">
-</form>
+<label [hidden]="isLoggedIn">Log in first</label>
+<label [hidden]="!isLoggedIn">Welcome {{usersUsername}}</label>
