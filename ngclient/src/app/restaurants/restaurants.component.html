@@ -47,27 +47,24 @@
         <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
     </div>
     <br>
-    <button class="btn btn-primary" id="button1" (click)="goBack()">Go back</button>                        
+    <button class="btn btn-primary" id="button2" (click)="goBack()">Go back</button>                        
 </form>
 </div>
 
 <br>
-<br>  
-<form (ngSubmit)="onSubmit($event)" autocomplete="off">
-  <input class="searchBar" name="search" placeholder="Search for opinions...">
-</form>
 <br>
-<br>  
-<li *ngFor="let opinion of opinions; index as i; first as isFirst">
-  Opinion by: {{opinion.username}}
-  <br>
-  City: {{opinion.city_of_restaurant}}
-  <br>
-  Name: {{opinion.name_of_restaurant}}
-  <br>
-  Type: {{opinion.type_of_restaurant}}
-  <br>
-  Opinion {{opinion.opinion}}
-  <br>
-
-</li>
+<div class="show-stuff">
+  <li *ngFor="let opinion of opinions">
+    Opinion by: {{opinion.username}}
+    <br>
+    City: {{opinion.city_of_restaurant}}
+    <br>
+    Name: {{opinion.name_of_restaurant}}
+    <br>
+    Type: {{opinion.type_of_restaurant}}
+    <br>
+    Opinion:
+    <textarea class="show-opinion" cols="1" rows="10" [disabled]="true">{{opinion.opinion}}</textarea>
+    <br>
+  </li>
+</div>

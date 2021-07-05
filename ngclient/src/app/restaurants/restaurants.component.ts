@@ -97,12 +97,10 @@ export class RestaurantsComponent implements OnInit {
     this.auth.getOpinions()
     .then((opinions) => {
       if (opinions.status === 'success') {
-        console.log(opinions.data)
         this.opinions = opinions.data;
       }
     })
     .catch((err) => {
-
     });
 
     let loader = new Loader({
@@ -210,9 +208,4 @@ export class RestaurantsComponent implements OnInit {
       })
     })
   }
-
-  onSubmit(event: any) {
-    console.log(event.target.search.value)
-  }
-
 }

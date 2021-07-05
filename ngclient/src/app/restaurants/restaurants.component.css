@@ -16,6 +16,19 @@
   padding-bottom: 15px;
 }
 
+.show-stuff{
+  padding-right: 600px;
+  padding-left: 600px;
+  text-align: left;
+  font-size: 120%;
+}
+
+.show-opinion{
+  height: 180px;
+  resize: none;
+  border: none;
+}
+
 .recaptcha-style{
   padding-top: 20px;
   padding-left: 100px;

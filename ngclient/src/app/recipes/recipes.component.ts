@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-recipes',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecipesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) {}
+
+  public recipes:any;
+
 
   ngOnInit(): void {
+    this.auth.getRecipes()
+    .then((recipes) => {
+      if (recipes.status === 'success') {
+        this.recipes = recipes.data;
+      }
+    })
+    .catch((err) => {
+    });
   }
-
-}
+}   

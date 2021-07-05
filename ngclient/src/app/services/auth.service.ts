@@ -33,4 +33,27 @@ export class AuthService {
     let url: string = "http://localhost:5000/api/opinions";
     return this.http.get(url, {headers: this.headers}).toPromise();
   }
+
+  getOpinionsByID(user_id:any): Promise<any> {
+    let url: string = "http://localhost:5000/api/opinionsbyid";
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `ID ${user_id}`  
+    });
+    return this.http.get(url, {headers: headers}).toPromise();
+  }
+
+  getRecipes():Promise<any> {
+    let url: string = "http://localhost:5000/api/recipes";
+    return this.http.get(url, {headers: this.headers}).toPromise();
+  }
+
+  getRecipesByID(user_id:any): Promise<any> {
+    let url: string = "http://localhost:5000/api/recipesbyid";
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `ID ${user_id}`  
+    });
+    return this.http.get(url, {headers: headers}).toPromise();
+  }
 }

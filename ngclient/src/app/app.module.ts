@@ -19,7 +19,6 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { OpinionsComponent } from './opinions/opinions.component';
-import { AddOpinionComponent } from './add-opinion/add-opinion.component';
 
 import { AuthService } from './services/auth.service';
 
@@ -37,7 +36,6 @@ import { AuthService } from './services/auth.service';
     NotFoundComponent,
     RecaptchaComponent,
     OpinionsComponent,
-    AddOpinionComponent,
   ],
   imports: [
     FormsModule,
@@ -69,10 +67,6 @@ import { AuthService } from './services/auth.service';
       {
         path: 'restaurants/opinions', 
         component: OpinionsComponent
-      },
-      {
-        path: 'restaurants/add-opinion', 
-        component: AddOpinionComponent
       },
       {
         path: 'your-profile', 

@@ -13,9 +13,15 @@ export class YourProfileComponent implements OnInit {
   isLoggedIn: boolean = false;
   labelSuccessHidden = true;
   labelErrorHidden = true;
+  hideOpinions = true;
+  hideRecipes = true;
   public labelSuccessText:any;
   public labelErrorText:any;
   public usersUsername:any;
+  public user_id:any;
+  public opinions:any;
+  public recipes:any;
+
   myToken: MyToken = new MyToken();
   
   constructor(private auth: AuthService) {}
@@ -27,13 +33,47 @@ export class YourProfileComponent implements OnInit {
         if (user.status === 'success') {
           this.isLoggedIn = true;
           this.usersUsername = user.data.username;
+          this.user_id = user.data.user_id;
         }
       })
       .catch((err) => {
         this.isLoggedIn = false;
       });
     }
+    else{
+      this.isLoggedIn = false;
+    }
   }
+
+  clickedRecipes(){
+    this.hideOpinions = true;
+    this.auth.getRecipesByID(this.user_id)
+    .then((recipes) => {
+      if (recipes.status === 'success') {
+        this.recipes = recipes.data;
+        console.log(recipes.data)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+    this.hideRecipes = false;
+  }
+
+  clickedOpinions(){
+    this.hideRecipes = true;
+    this.auth.getOpinionsByID(this.user_id)
+    .then((opinions) => {
+      if (opinions.status === 'success') {
+        this.opinions = opinions.data;
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+    this.hideOpinions = false;
+  }
+
   logout(){
     this.myToken.token = localStorage.getItem('token');
     if (this.myToken) {

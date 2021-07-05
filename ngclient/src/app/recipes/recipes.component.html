@@ -1,1 +1,17 @@
-<p>XD</p>
+<div class="page-title">
+    <h2>Recipes</h2>
+    <p class="lead">
+    </p>
+</div>
+
+<div class="show-stuff">
+    <li *ngFor="let recipe of recipes">
+      Recipe by: {{recipe.username}}
+      <br>
+      Tags: {{recipe.tags}}
+      <br>
+      Recipe:
+      <textarea class="show-recipes" cols="1" rows="10" [disabled]="true">{{recipe.recipe}}</textarea>
+      <br>
+    </li>
+</div>
