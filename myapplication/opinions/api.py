@@ -5,39 +5,105 @@ from myapplication import db
 from markupsafe import escape
 from myapplication.auth.auth import token_required
 
-def OpinionsApi(Resource):
+
+class OpinionsApi(Resource):
     def get(self):
         opinions = Opinions.query.all()
-        return jsonify(opinions)
+        responseObject = {
+            'status': 'success',
+            'data': opinions
+        }
+        response = jsonify(responseObject)
+        response.status_code = 200
+        return response
 
-    @token_required
     def post(self):
         name_of_restaurant = request.form.get("name_of_restaurant")
         city_of_restaurant = request.form.get("city_of_restaurant")
         type_of_restaurant = request.form.get("type_of_restaurant")
         opinion = request.form.get("opinion")
         user_id = request.form.get("user_id")
-
-        name_of_restaurant = str(escape(name_of_restaurant))
-        city_of_restaurant = str(escape(city_of_restaurant))
-        type_of_restaurant = str(escape(type_of_restaurant))
-        opinion = str(escape(opinion))
-        #user_id = escape(user_id)
+        username = request.form.get("username")
 
         if name_of_restaurant == '':
-            return {'message': {'name_of_restaurant': 'No name_of_restaurant provided'}}, 400
+            responseObject = {
+                'status': 'fail',
+                'message': 'No name provided.'
+            }
+            response = jsonify(responseObject)
+            response.status_code = 400
+            return response
 
         if city_of_restaurant == '':
-            return {'message': {'city_of_restaurant': 'No city_of_restaurant provided'}}, 400
+            responseObject = {
+                'status': 'fail',
+                'message': 'No city provided.'
+            }
+            response = jsonify(responseObject)
+            response.status_code = 400
+            return response
 
         if type_of_restaurant == '':
-            return {'message': {'type_of_restaurant': 'No type_of_restaurant provided'}}, 400
+            responseObject = {
+                'status': 'fail',
+                'message': 'No type provided.'
+            }
+            response = jsonify(responseObject)
+            response.status_code = 400
+            return response
 
         if opinion == '':
-            return {'message': {'opinion': 'no opinion provided'}}, 400
+            responseObject = {
+                'status': 'fail',
+                'message': 'No opinion provided.'
+            }
+            response = jsonify(responseObject)
+            response.status_code = 400
+            return response
+
+        if username == '':
+            responseObject = {
+                'status': 'fail',
+                'message': 'No username provided.'
+            }
+            response = jsonify(responseObject)
+            response.status_code = 400
+            return response
 
         new_opinion = Opinions(name_of_restaurant=name_of_restaurant, city_of_restaurant=city_of_restaurant,\
-            type_of_restaurant=type_of_restaurant, opinion=opinion, user_id=user_id)
+            type_of_restaurant=type_of_restaurant, opinion=opinion, user_id=user_id, username=username)
         db.session.add(new_opinion)
         db.session.commit()
-        return jsonify(new_opinion), 200
+        responseObject = {
+            'status': 'success',
+            'message': 'Opinion added successfully.'
+        }
+        response = jsonify(responseObject)
+        response.status_code = 200
+        return response
+
+
+class OpinionsApiByID(Resource):
+    def get(self):
+        id_header = request.headers.get('Authorization')
+        if id_header:
+            try:
+                user_id = id_header.split(" ")[1]
+            except IndexError:
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'Bearer token malformed.'
+                }
+                response = jsonify(responseObject)
+                response.status_code = 401
+                return response
+        else:
+            user_id = -1
+        opinions = Opinions.query.filter_by(user_id=user_id).all()
+        responseObject = {
+            'status': 'success',
+            'data': opinions
+        }
+        response = jsonify(responseObject)
+        response.status_code = 200
+        return response
