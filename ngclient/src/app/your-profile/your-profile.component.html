@@ -1,3 +1,55 @@
-<form (ngSubmit)="onSubmit($event)">
-    <input name="player" value="Name">
-</form>
+<div class="page-title" [hidden]="isLoggedIn">
+    <h2>Login first</h2>
+    <p class="lead">
+    </p>
+</div>
+
+<div class="logged_in_form" [hidden]="!isLoggedIn">
+    <div class="page-title">
+        <h2>Welcome {{usersUsername}}</h2>
+        <p class="lead">
+        </p>
+    </div>
+    <button class="btn btn-primary" id="logout" (click)="logout()">Logout</button>
+    <br>
+    <label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</label>
+    <label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</label>
+    <div class="nav-repair">
+        <div class="container-fluid">
+          <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+              <ul class="nav navbar-nav">
+              <li><a id="len1" class="hoverable" (click)="clickedRecipes()">Recipes</a></li>
+              <li><a id="len2" class="hoverable" (click)="clickedOpinions()">Opinions</a></li>
+              </ul>
+          </div>
+          </nav>
+        </div>
+    </div>
+    <div class="show-stuff" [hidden]="hideOpinions">
+        <li *ngFor="let opinion of opinions">
+            Opinion by: {{opinion.username}}
+            <br>
+            City: {{opinion.city_of_restaurant}}
+            <br>
+            Name: {{opinion.name_of_restaurant}}
+            <br>
+            Type: {{opinion.type_of_restaurant}}
+            <br>
+            Opinion:
+            <textarea class="show-opinion" cols="1" rows="10" [disabled]="true">{{opinion.opinion}}</textarea>
+            <br>
+        </li>
+    </div>
+    <div class="show-stuff" [hidden]="hideRecipes">
+        <li *ngFor="let recipe of recipes">
+            Recipe by: {{recipe.username}}
+            <br>
+            Tags: {{recipe.tags}}
+            <br>
+            Recipe:
+          <textarea class="show-recipes" cols="1" rows="10" [disabled]="true">{{recipe.recipe}}</textarea>
+          <br>
+        </li>
+    </div>
+</div>

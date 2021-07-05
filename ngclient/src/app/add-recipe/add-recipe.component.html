@@ -5,16 +5,21 @@
 </div>
 
 <div class="form-stuff">
-    <form>
+    <form method="POST" #AddRecipesForm="ngForm" autocomplete="off">
         <div class="form-group">
             <label for="recipe">Attach your recipe</label>
-            <textarea required ngModel name="recipe" #recipe="ngModel" id="recipe" cols="1" rows="40" class="form-control" placeholder="Type in your recipe" ></textarea>
+            <textarea required ngModel name="recipe" #recipe="ngModel" id="recipe" cols="1" rows="40" class="form-control" placeholder="Type in your recipe"></textarea>
+            <div class="alert alert-danger" *ngIf="recipe.touched && !recipe.valid">Recipe required</div>
         </div>
         <div class="form-group">
             <label for="tags">Tags (keywords, so your recipes are easier to find</label>
             <textarea required ngModel name="tags" #tags="ngModel" id="tags" cols="1" rows="1" class="form-control" placeholder="Type in your tags" ></textarea>
+            <div class="alert alert-danger" *ngIf="tags.touched && !tags.valid">Tags required</div>
         </div>
-        <button class="btn btn-primary" id="button1" (click)="getData(recipe.value, tags.value)" [disabled]="isDisabled">Add opinion</button>
+        <button class="btn btn-primary" id="button1" (click)="getData(recipe.value, tags.value)" [disabled]="!isLoggedIn || !AddRecipesForm.valid || isDisabled">Add opinion</button>
+        <br>
+        <Label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</Label>
+        <Label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</Label>
         <div class="recaptcha-style">
             <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
         </div>

@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { RecaptchaModule } from "ng-recaptcha";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
@@ -19,7 +19,8 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { OpinionsComponent } from './opinions/opinions.component';
-import { AddOpinionComponent } from './add-opinion/add-opinion.component';
+
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -35,10 +36,10 @@ import { AddOpinionComponent } from './add-opinion/add-opinion.component';
     NotFoundComponent,
     RecaptchaComponent,
     OpinionsComponent,
-    AddOpinionComponent,
   ],
   imports: [
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RecaptchaModule,
     BrowserModule,
@@ -68,10 +69,6 @@ import { AddOpinionComponent } from './add-opinion/add-opinion.component';
         component: OpinionsComponent
       },
       {
-        path: 'restaurants/add-opinion', 
-        component: AddOpinionComponent
-      },
-      {
         path: 'your-profile', 
         component: YourProfileComponent
       },
@@ -87,9 +84,9 @@ import { AddOpinionComponent } from './add-opinion/add-opinion.component';
         path: '**', 
         component: NotFoundComponent
       }
-    ])
+    ],{ onSameUrlNavigation: 'reload' })
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

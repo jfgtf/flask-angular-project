@@ -5,15 +5,22 @@
 </div>
 
 <div class="form-stuff">
-    <form>
+    <form method="POST" #UserRegisatrationForm="ngForm" autocomplete="off">
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" id="email" cols="1" rows="1" class="form-control" placeholder="Email" >
+            <div class="input-field">
+            <input required ngModel name="email" #email="ngModel" type="text" id="email" class="form-control validate" placeholder="Email">
+            <label for="email" data-error="Required field!"></label>
+            </div>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" cols="1" rows="1" class="form-control" placeholder="Password" >
+            <div class="input-field">
+            <input required ngModel name="password" #password="ngModel" type="password" id="password" class="form-control validate" placeholder="Password">
+            <label for="password" data-error="Required field!"></label>
+            </div>
         </div>
-        <button class="btn btn-primary">Login</button>
+        <button class="btn btn-primary" (click)="clicked(email.value, password.value)" [disabled]="!UserRegisatrationForm.valid">Login</button>
+        <br>
+        <Label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</Label>
+        <Label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</Label>
     </form>
 </div>

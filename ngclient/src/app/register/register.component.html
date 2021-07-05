@@ -5,10 +5,10 @@
 </div>
 
 <div class="form-stuff">
-    <form method="POST" #UserRegisatrationForm="ngForm"  autocomplete="off">
+    <form method="POST" #UserRegisatrationForm="ngForm" autocomplete="off">
         <div class="form-group">
             <div class="input-field">
-            <input required maxlength="20" ngModel name="email" #email="ngModel" type="email" class="form-control validate text email required" placeholder="Email">
+            <input required maxlength="50" ngModel name="email" #email="ngModel" type="email" class="form-control validate text email required" placeholder="Email">
             <label for="email" data-error="Invalid email"></label>
             </div>
         </div>
@@ -42,9 +42,12 @@
             <label for="repeatPassword" data-error="Password must match"></label>    
             </div>
         </div>
-        <button class="btn btn-primary" id="button1" click="test()" [disabled]="!UserRegisatrationForm.valid || isDisabled">Register</button>
+        <button class="btn btn-primary" (click)="clicked(email.value, firstName.value, lastName.value, username.value, password.value, repeatPassword.value)" [disabled]="!UserRegisatrationForm.valid || isDisabled">Register</button>
+        <br>
+        <Label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</Label>
+        <Label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</Label>
         <div class="recaptcha-style">
             <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
         </div>                          
     </form>
-</div>
+</div>  
