@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader'
 import { getAPIkey } from '../_helpers/help-API-key';
+import { AuthService } from '../services/auth.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-restaurants',
@@ -8,12 +11,100 @@ import { getAPIkey } from '../_helpers/help-API-key';
   styleUrls: ['./restaurants.component.css']
 })
 export class RestaurantsComponent implements OnInit {
-  constructor() {
-  } 
-
+  constructor(private http: HttpClient, private auth: AuthService) {}
+  hideLabel: boolean = true;
+  openForm: boolean = true;
   title = 'google-maps'
+  user_id: number;
+  username: string;
+
+  labelSuccessHidden = true;
+  labelErrorHidden = true;
+  public labelSuccessText:any;
+  public labelErrorText:any;
+  public opinions:any;
+
+  tokenInClass:string|null;
+
+  isDisabled = true;
+
+  getMsgFromBaby() {
+    this.isDisabled = false;
+  }
+
+  getData(name: string, city: string, type: string, opinion: string){
+    var formData: any = new FormData();
+
+    formData.append("name_of_restaurant", name);
+    formData.append("city_of_restaurant", city);
+    formData.append("type_of_restaurant", type);
+    formData.append("opinion", opinion);
+    formData.append("user_id", this.user_id);
+    formData.append("username", this.username);
+
+    this.http.post('http://localhost:5000/api/opinions', formData)
+    .subscribe(
+      data => {
+        this.labelErrorHidden = true;
+        this.labelSuccessText = "Added an opinion succesfully";
+        this.labelSuccessHidden = false;
+        timer(3000).subscribe(x => { this.labelSuccessHidden = true; })
+      },
+      err => {
+        this.labelSuccessHidden = true;
+        this.labelErrorText = "There was an issue";
+        this.labelErrorHidden = false;
+        timer(3000).subscribe(x => { this.labelErrorHidden = true; })
+    });
+
+    formData.delete("name");
+    formData.delete("city");
+    formData.delete("type");
+    formData.delete("opinion");
+    formData.delete("user_id");
+    formData.delete("username");
+
+  }
+
+  clicked(){
+    const token = localStorage.getItem('token');
+    this.tokenInClass = token;
+    if (token){
+      this.auth.ensureAuthenticated(token)
+      .then((user) => {
+        if (user.status === 'success') {
+          this.user_id = user.data.user_id;
+          this.username = user.data.username;
+          this.openForm = false;
+          this.hideLabel = true;
+        }
+      })
+      .catch((err) => {
+        this.hideLabel = false;
+        this.openForm = true;
+      });
+    }
+    else{
+      this.hideLabel = false;
+    }
+  }
+
+  goBack(){
+    this.openForm = true;
+  }
 
   ngOnInit(): void {
+    this.auth.getOpinions()
+    .then((opinions) => {
+      if (opinions.status === 'success') {
+        console.log(opinions.data)
+        this.opinions = opinions.data;
+      }
+    })
+    .catch((err) => {
+
+    });
+
     let loader = new Loader({
       apiKey: getAPIkey()
     })

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { timer, Observable } from 'rxjs';
+import { timer} from 'rxjs';
 import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
 

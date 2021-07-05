@@ -1,0 +1,10 @@
+.label-success{
+    padding-top: 15px;
+    background-color: black;
+    color:green;
+}
+
+.label-error{
+    padding-top: 15px;
+    color:red;
+}

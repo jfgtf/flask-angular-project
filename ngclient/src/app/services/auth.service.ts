@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { User } from '../models/User';
+import { MyToken } from '../models/MyToken';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable({
@@ -21,5 +22,15 @@ export class AuthService {
       Authorization: `Bearer ${token}` 
     });
     return this.http.get(url, {headers: headers}).toPromise();
+  }
+
+  logout(token:MyToken): Promise<any> {
+    let url: string = "http://localhost:5000/api/logout";
+    return this.http.post(url, token, {headers: this.headers}).toPromise();
+  }
+
+  getOpinions(): Promise<any> {
+    let url: string = "http://localhost:5000/api/opinions";
+    return this.http.get(url, {headers: this.headers}).toPromise();
   }
 }

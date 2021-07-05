@@ -6,21 +6,68 @@
 
 <div class="map-style" id="map">
 </div>
+<br>
 
-<div class="nav-repair">
-<div class="container-fluid">
-  <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-      <ul class="nav navbar-nav">
-      <li><a id="len8" class="hoverable" routerLink="/restaurants/add-opinion">Add an opinion</a></li>
-      </ul>
-  </div>
-  </nav>
-</div>
+<div class="page-title">
+  <h2>Opinions</h2>
+  <p class="lead">
+  </p>
 </div>
 
-<form (ngSubmit)="onSubmit($event)">
-  <label for="searchFor">Search for opinions</label><br>
+<button class="btn btn-primary" id="add_opinion" (click)="clicked()">Add an opinion</button>
+<div class="labelErrorr" [hidden]="hideLabel" >
   <br>
+  <label class="label-error" id="notLoggedIn" >Log in to add an opinion</label>
+  <br>
+</div>
+
+<div class="form-stuff" [hidden]="openForm">
+  <form method="POST" #AddOpinionForm="ngForm" autocomplete="off">
+    <div class="form-group">
+        <input required ngModel name="name" #name="ngModel" type="text" id="name" class="form-control" placeholder="Name" >
+        <div class="alert alert-danger" *ngIf="name.touched && !name.valid">Name required</div>
+    </div>
+    <div class="form-group">
+        <input required ngModel name="city" #city="ngModel" type="text" id="city" class="form-control" placeholder="City" >
+        <div class="alert alert-danger" *ngIf="city.touched && !city.valid">Location required</div>
+    </div>
+    <div class="form-group">
+        <input required ngModel name="type" #type="ngModel" type="text" id="type" class="form-control" placeholder="Type" >
+        <div class="alert alert-danger" *ngIf="type.touched && !type.valid">Type required</div>
+    </div>
+    <div class="form-group">
+        <textarea required ngModel name="opinion" #opinion="ngModel" id="opinion" class="form-control" cols="1" rows="10" placeholder="Opinion" ></textarea>
+        <div class="alert alert-danger" *ngIf="opinion.touched && !opinion.valid">Opinion required</div>
+    </div>
+    <button class="btn btn-primary" id="button1" (click)="getData(name.value, city.value, type.value, opinion.value)" [disabled]="!AddOpinionForm.valid || isDisabled">Add opinion</button>
+    <br>
+    <Label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</Label>
+    <Label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</Label>
+    <div class="recaptcha-style">
+        <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
+    </div>
+    <br>
+    <button class="btn btn-primary" id="button1" (click)="goBack()">Go back</button>                        
+</form>
+</div>
+
+<br>
+<br>  
+<form (ngSubmit)="onSubmit($event)" autocomplete="off">
   <input class="searchBar" name="search" placeholder="Search for opinions...">
 </form>
+<br>
+<br>  
+<li *ngFor="let opinion of opinions; index as i; first as isFirst">
+  Opinion by: {{opinion.username}}
+  <br>
+  City: {{opinion.city_of_restaurant}}
+  <br>
+  Name: {{opinion.name_of_restaurant}}
+  <br>
+  Type: {{opinion.type_of_restaurant}}
+  <br>
+  Opinion {{opinion.opinion}}
+  <br>
+
+</li>

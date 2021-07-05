@@ -90,7 +90,7 @@ import { AuthService } from './services/auth.service';
         path: '**', 
         component: NotFoundComponent
       }
-    ])
+    ],{ onSameUrlNavigation: 'reload' })
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
