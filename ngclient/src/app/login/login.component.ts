@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { timer} from 'rxjs';
 import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
@@ -9,7 +10,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor( private auth: AuthService ) {}
+  constructor( private auth: AuthService, private cookieService: CookieService ) {}
 
   user: User = new User();
 
@@ -24,7 +25,7 @@ export class LoginComponent {
 
     this.auth.login(this.user)
     .then((user) => {
-      localStorage.setItem('token', user.token);
+      this.cookieService.set('token', user.token);
       this.labelErrorHidden = true;
       this.labelSuccessText = "Logged in succesfully";
       this.labelSuccessHidden = false;

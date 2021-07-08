@@ -1,0 +1,25 @@
+<app-data-table></app-data-table>
+<br>
+<br>
+<br>
+<br>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th [appSort]="dataList" data-order="desc" data-name="Id" scope="col">Id</th>
+            <th [appSort]="dataList" data-order="desc" data-name="Name" scope="col">Name</th>
+            <th [appSort]="dataList" data-order="desc" data-name="Age" scope="col">Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of dataList">
+           <td>{{data.Id}}</td> 
+           <td>{{data.Name}}</td>
+           <td>{{data.Age}}</td>
+        </tr>
+    </tbody>
+    <br>
+</table>
+
+<app-child (childEvent)='receive($event)'></app-child>

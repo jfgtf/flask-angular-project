@@ -10,6 +10,7 @@ import 'rxjs/add/operator/toPromise';
 export class AuthService {
   private headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   constructor(private http: HttpClient) {}
+  
   login(user: User): Promise<any> {
     let url: string = "http://localhost:5000/api/login";
     return this.http.post(url, user, {headers: this.headers}).toPromise();
@@ -55,5 +56,14 @@ export class AuthService {
       Authorization: `ID ${user_id}`  
     });
     return this.http.get(url, {headers: headers}).toPromise();
+  }
+
+  deleteRecipe(id:any): Promise<any> {
+    let url: string = "http://localhost:5000/api/recipesdelete";
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `ID ${id}`  
+    });
+    return this.http.post(url, {headers: headers}).toPromise();
   }
 }

@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { MyToken } from '../models/MyToken';
 import { timer} from 'rxjs';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-your-profile',
@@ -11,6 +12,7 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 })
 export class YourProfileComponent implements OnInit {
   isLoggedIn: boolean = false;
+  disableRecipe: boolean = false;
   labelSuccessHidden = true;
   labelErrorHidden = true;
   hideOpinions = true;
@@ -24,9 +26,9 @@ export class YourProfileComponent implements OnInit {
 
   myToken: MyToken = new MyToken();
   
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private cookieService: CookieService ) {}
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get('token');
     if (token) {
       this.auth.ensureAuthenticated(token)
       .then((user) => {
@@ -51,8 +53,7 @@ export class YourProfileComponent implements OnInit {
     .then((recipes) => {
       if (recipes.status === 'success') {
         this.recipes = recipes.data;
-        console.log(recipes.data)
-      }
+        }
     })
     .catch((err) => {
       console.log(err)
@@ -75,7 +76,7 @@ export class YourProfileComponent implements OnInit {
   }
 
   logout(){
-    this.myToken.token = localStorage.getItem('token');
+    this.myToken.token = this.cookieService.get('token');
     if (this.myToken) {
       this.auth.logout(this.myToken)
       .then((data) => {

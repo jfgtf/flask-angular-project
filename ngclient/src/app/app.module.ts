@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
-import { RecaptchaModule } from "ng-recaptcha";
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
@@ -19,8 +17,24 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { OpinionsComponent } from './opinions/opinions.component';
+import { TableComponent } from './table/table.component';
+import { SettingsComponent } from './settings/settings.component';
+import { TablesComponent } from './tables/tables.component';
+import { ChildComponent } from './child/child.component';
+import { ButtonsComponent } from './buttons/buttons.component';
+
+import { SortDirective } from './table/directive/sort.directive';
 
 import { AuthService } from './services/auth.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataTableComponent } from './data-table/data-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { AppRoutingModule } from './app-routing.module';
+import { RecaptchaModule } from "ng-recaptcha";
+import { CookieService } from 'ngx-cookie-service';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +50,13 @@ import { AuthService } from './services/auth.service';
     NotFoundComponent,
     RecaptchaComponent,
     OpinionsComponent,
+    TableComponent,
+    SettingsComponent,
+    DataTableComponent,
+    ButtonsComponent,
+    SortDirective,
+    TablesComponent,
+    ChildComponent,
   ],
   imports: [
     FormsModule,
@@ -81,12 +102,28 @@ import { AuthService } from './services/auth.service';
         component: RegisterComponent
       },
       {
+        path: 'settings', 
+        component: SettingsComponent
+      },
+      {
+        path: 'tables', 
+        component: TablesComponent
+      },
+      {
+        path: 'buttons', 
+        component: ButtonsComponent
+      },
+      {
         path: '**', 
         component: NotFoundComponent
       }
-    ],{ onSameUrlNavigation: 'reload' })
+    ],{ onSameUrlNavigation: 'reload' }),
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

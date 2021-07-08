@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { timer } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -54,10 +55,10 @@ export class AddRecipeComponent implements OnInit {
 
   }
 
-  constructor(private auth:AuthService, private http:HttpClient) { }
+  constructor(private auth:AuthService, private http:HttpClient, private cookieService:CookieService) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get('token');
     if (token) {
       this.auth.ensureAuthenticated(token)
       .then((user) => {

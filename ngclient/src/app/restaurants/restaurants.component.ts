@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader'
@@ -11,7 +12,7 @@ import { timer } from 'rxjs';
   styleUrls: ['./restaurants.component.css']
 })
 export class RestaurantsComponent implements OnInit {
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService, private cookieService:CookieService) {}
   hideLabel: boolean = true;
   openForm: boolean = true;
   title = 'google-maps'
@@ -67,7 +68,7 @@ export class RestaurantsComponent implements OnInit {
   }
 
   clicked(){
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get('token');
     this.tokenInClass = token;
     if (token){
       this.auth.ensureAuthenticated(token)
