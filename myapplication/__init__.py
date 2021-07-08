@@ -26,7 +26,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from myapplication.models import Recepies, Opinions, Users
+    from myapplication.models import Recipes, Opinions, Users, BlackListToken
 
     create_database(app)
 
@@ -43,23 +43,29 @@ def create_app():
     from myapplication.auth.api import LoginApi
     api.add_resource(LoginApi, '/api/login')
 
-    from myapplication.recepies.api import RecepiesApi
-    api.add_resource(RecepiesApi, '/api/recepies')
+    from myapplication.auth.api import UserAPI
+    api.add_resource(UserAPI, '/api/status')
 
-    #from myapplication.opinions.api import OpinionsApi
-    #api.add_resource(OpinionsApi, '/api/opinions')
+    from myapplication.recipes.api import RecipesApi
+    api.add_resource(RecipesApi, '/api/recipes')
+
+    from myapplication.recipes.api import RecipeApiByID
+    api.add_resource(RecipeApiByID, '/api/recipesbyid')
+
+    from myapplication.recipes.api import DeleteRecipeAPI
+    api.add_resource(DeleteRecipeAPI, '/api/recipesdelete')
+
+    from myapplication.auth.api import LogoutAPI
+    api.add_resource(LogoutAPI, '/api/logout')
+
+    from myapplication.opinions.api import OpinionsApi
+    api.add_resource(OpinionsApi, '/api/opinions')
+
+    from myapplication.opinions.api import OpinionsApiByID
+    api.add_resource(OpinionsApiByID, '/api/opinionsbyid')
 
     from myapplication.views import home as bp_home
     app.register_blueprint(bp_home)
-
-    #from myapplication.recepies import recepies as bp_recepies
-    #app.register_blueprint(bp_recepies)
-
-    #from myapplication.opinions import opinions as bp_opinions
-    #app.register_blueprint(bp_opinions)
-
-    #from myapplication.add_recipe import add_recipe as bp_add_recipe
-    #app.register_blueprint(bp_add_recipe)
 
     from myapplication.users import users as bp_users
     app.register_blueprint(bp_users)
