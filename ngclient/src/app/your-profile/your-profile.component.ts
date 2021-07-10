@@ -86,7 +86,7 @@ export class YourProfileComponent implements OnInit {
           this.labelSuccessHidden = false;
           timer(1500).subscribe(x => { this.labelSuccessHidden = true; })
           timer(1500).subscribe(x => { this.isLoggedIn = false;})
-          localStorage.removeItem('token')
+          this.cookieService.delete('token')
         }
       })
       .catch((err) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { timer } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,7 @@ import { timer } from 'rxjs';
 })
 
 export class RegisterComponent implements OnInit{ 
-  constructor( private http: HttpClient ) {}
+  constructor( private http: HttpClient, private auth: AuthService ) {}
 
   labelSuccessHidden = true;
   labelErrorHidden = true;
@@ -31,7 +32,7 @@ export class RegisterComponent implements OnInit{
     formData.append("password", password);
     formData.append("repeatPassword", repeatPassword);
 
-    this.http.post('http://localhost:5000/api/register', formData)
+    this.auth.register(formData)
     .subscribe(
       data => {
         this.labelErrorHidden = true;

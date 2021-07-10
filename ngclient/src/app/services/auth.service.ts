@@ -66,4 +66,14 @@ export class AuthService {
     });
     return this.http.post(url, {headers: headers}).toPromise();
   }
+
+  register(form:FormData) {
+    let url: string = "http://localhost:5000/api/register";
+    return  this.http.post(url, form)
+  }
+
+  addRecipe(form:FormData){
+    let url: string = "http://localhost:5000/api/recipes";
+    return  this.http.post(url, form)
+  }
 }

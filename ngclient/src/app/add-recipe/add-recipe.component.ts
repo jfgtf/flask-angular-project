@@ -33,7 +33,7 @@ export class AddRecipeComponent implements OnInit {
     formData.append("user_id", this.user_id);
     formData.append("username", this.usersUsername);
 
-    this.http.post('http://localhost:5000/api/recipes', formData)
+    this.auth.addRecipe(formData)
     .subscribe(
       data => {
         this.labelErrorHidden = true;

@@ -1,9 +1,10 @@
+import { LoadMapService } from './services/load-map.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
@@ -22,6 +23,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { TablesComponent } from './tables/tables.component';
 import { ChildComponent } from './child/child.component';
 import { ButtonsComponent } from './buttons/buttons.component';
+import { NewMapComponent } from './new-map/new-map.component';
 
 import { SortDirective } from './table/directive/sort.directive';
 
@@ -34,6 +36,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { AppRoutingModule } from './app-routing.module';
 import { RecaptchaModule } from "ng-recaptcha";
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 
 @NgModule({
@@ -57,6 +61,7 @@ import { CookieService } from 'ngx-cookie-service';
     SortDirective,
     TablesComponent,
     ChildComponent,
+    NewMapComponent,
   ],
   imports: [
     FormsModule,
@@ -110,6 +115,10 @@ import { CookieService } from 'ngx-cookie-service';
         component: TablesComponent
       },
       {
+        path: 'new-map', 
+        component: NewMapComponent
+      },
+      {
         path: 'buttons', 
         component: ButtonsComponent
       },
@@ -121,9 +130,22 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    ToastrModule.forRoot({
+      timeOut:1000,
+      preventDuplicates: true
+    })
   ],
-  providers: [AuthService, CookieService],
+  providers: [
+    AuthService, 
+    CookieService, 
+    LoadMapService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

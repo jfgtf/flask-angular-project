@@ -1,18 +1,19 @@
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Loader } from '@googlemaps/js-api-loader'
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Loader } from '@googlemaps/js-api-loader';
 import { getAPIkey } from '../_helpers/help-API-key';
 import { AuthService } from '../services/auth.service';
 import { timer } from 'rxjs';
+import { LoadMapService } from '../services/load-map.service';
 
 @Component({
   selector: 'app-restaurants',
   templateUrl: './restaurants.component.html',
   styleUrls: ['./restaurants.component.css']
 })
-export class RestaurantsComponent implements OnInit {
-  constructor(private http: HttpClient, private auth: AuthService, private cookieService:CookieService) {}
+export class RestaurantsComponent implements OnInit, OnDestroy {
+  constructor(private http: HttpClient, private auth: AuthService, private cookieService:CookieService, private map:LoadMapService) {}
   hideLabel: boolean = true;
   openForm: boolean = true;
   title = 'google-maps'
@@ -20,7 +21,7 @@ export class RestaurantsComponent implements OnInit {
   username: string;
 
   labelSuccessHidden = true;
-  labelErrorHidden = true;
+  labelErrorHidden = true;  
   public labelSuccessText:any;
   public labelErrorText:any;
   public opinions:any;
@@ -94,6 +95,9 @@ export class RestaurantsComponent implements OnInit {
     this.openForm = true;
   }
 
+  ngOnDestroy(){
+  }
+
   ngOnInit(): void {
     this.auth.getOpinions()
     .then((opinions) => {
@@ -104,11 +108,7 @@ export class RestaurantsComponent implements OnInit {
     .catch((err) => {
     });
 
-    let loader = new Loader({
-      apiKey: getAPIkey()
-    })
-
-    loader.load().then(() => {
+    this.map.loadMap().then(() => {
       new google.maps.Map(document.getElementById("map") as HTMLElement,{
         center: {lat: 52.237049, lng: 21.017532},
         zoom: 6,
@@ -208,5 +208,6 @@ export class RestaurantsComponent implements OnInit {
         ]
       })
     })
+
   }
 }
