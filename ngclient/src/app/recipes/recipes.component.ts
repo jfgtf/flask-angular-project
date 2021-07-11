@@ -12,7 +12,6 @@ export class RecipesComponent implements OnInit {
 
   public recipes:any;
 
-
   ngOnInit(): void {
     this.auth.getRecipes()
     .then((recipes) => {

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { MyToken } from '../models/MyToken';
 import { timer} from 'rxjs';
-import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-your-profile',
@@ -12,13 +12,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class YourProfileComponent implements OnInit {
   isLoggedIn: boolean = false;
-  disableRecipe: boolean = false;
-  labelSuccessHidden = true;
-  labelErrorHidden = true;
   hideOpinions = true;
   hideRecipes = true;
-  public labelSuccessText:any;
-  public labelErrorText:any;
   public usersUsername:any;
   public user_id:any;
   public opinions:any;
@@ -26,7 +21,7 @@ export class YourProfileComponent implements OnInit {
 
   myToken: MyToken = new MyToken();
   
-  constructor(private auth: AuthService, private cookieService: CookieService ) {}
+  constructor(private auth: AuthService, private cookieService: CookieService, private toastr: ToastrService ) {}
   ngOnInit(): void {
     const token = this.cookieService.get('token');
     if (token) {
@@ -55,9 +50,6 @@ export class YourProfileComponent implements OnInit {
         this.recipes = recipes.data;
         }
     })
-    .catch((err) => {
-      console.log(err)
-    });
     this.hideRecipes = false;
   }
 
@@ -69,9 +61,6 @@ export class YourProfileComponent implements OnInit {
         this.opinions = opinions.data;
       }
     })
-    .catch((err) => {
-      console.log(err)
-    });
     this.hideOpinions = false;
   }
 
@@ -81,19 +70,10 @@ export class YourProfileComponent implements OnInit {
       this.auth.logout(this.myToken)
       .then((data) => {
         if (data.status === 'success') {
-          this.labelErrorHidden = true;
-          this.labelSuccessText = "Logged out succesfully";
-          this.labelSuccessHidden = false;
-          timer(1500).subscribe(x => { this.labelSuccessHidden = true; })
+          this.toastr.success('Logged out successfully');
           timer(1500).subscribe(x => { this.isLoggedIn = false;})
           this.cookieService.delete('token')
         }
-      })
-      .catch((err) => {
-        this.labelSuccessHidden = true;
-        this.labelErrorText = err.error.message;
-        this.labelErrorHidden = false;
-        timer(3000).subscribe(x => { this.labelErrorHidden = true; })
       });
     }
   }

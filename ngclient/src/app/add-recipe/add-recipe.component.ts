@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { timer } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-recipe',
@@ -15,11 +15,6 @@ export class AddRecipeComponent implements OnInit {
   isDisabled = true;
   public usersUsername:any;
   public user_id:any;
-  public labelSuccessText:any;
-  public labelErrorText:any;
-    
-  labelSuccessHidden = true;
-  labelErrorHidden = true;
 
   getMsgFromBaby() {
     this.isDisabled = false;
@@ -36,17 +31,8 @@ export class AddRecipeComponent implements OnInit {
     this.auth.addRecipe(formData)
     .subscribe(
       data => {
-        this.labelErrorHidden = true;
-        this.labelSuccessText = "Added a recipe succesfully";
-        this.labelSuccessHidden = false;
-        timer(3000).subscribe(x => { this.labelSuccessHidden = true; })
-      },
-      err => {
-        this.labelSuccessHidden = true;
-        this.labelErrorText = "There was an issue";
-        this.labelErrorHidden = false;
-        timer(3000).subscribe(x => { this.labelErrorHidden = true; })
-    });
+        this.toastr.success('Added a recipe succesfully');
+      });
 
     formData.delete("recipe", recipe);
     formData.delete("tags", tags);
@@ -55,7 +41,7 @@ export class AddRecipeComponent implements OnInit {
 
   }
 
-  constructor(private auth:AuthService, private http:HttpClient, private cookieService:CookieService) { }
+  constructor(private auth:AuthService, private http:HttpClient, private cookieService:CookieService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const token = this.cookieService.get('token');
@@ -70,10 +56,12 @@ export class AddRecipeComponent implements OnInit {
       })
       .catch((err) => {
         this.isLoggedIn = false;
+        this.toastr.error('Log in to add recipes');
       });
     }
     else{
       this.isLoggedIn = false;
+      this.toastr.error('Log in to add recipes');
     }
   }
 

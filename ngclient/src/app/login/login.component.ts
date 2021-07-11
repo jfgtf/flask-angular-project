@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { timer} from 'rxjs';
 import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
 
@@ -10,14 +10,9 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor( private auth: AuthService, private cookieService: CookieService ) {}
+  constructor( private auth: AuthService, private cookieService: CookieService, private toastr: ToastrService ) {}
 
   user: User = new User();
-
-  labelSuccessHidden = true;
-  labelErrorHidden = true;
-  public labelSuccessText:any;
-  public labelErrorText:any;
 
   onLogin(email:string, password:string): void {
     this.user.email = email;
@@ -26,16 +21,7 @@ export class LoginComponent {
     this.auth.login(this.user)
     .then((user) => {
       this.cookieService.set('token', user.token);
-      this.labelErrorHidden = true;
-      this.labelSuccessText = "Logged in succesfully";
-      this.labelSuccessHidden = false;
-      timer(3000).subscribe(x => { this.labelSuccessHidden = true; })
-    })
-    .catch((err) => {
-      this.labelSuccessHidden = true;
-      this.labelErrorText = err.error.message;
-      this.labelErrorHidden = false;
-      timer(3000).subscribe(x => { this.labelErrorHidden = true; })
+      this.toastr.success('Logged in succesfully');
     });
   }
 

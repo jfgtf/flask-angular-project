@@ -8,8 +8,6 @@
 </div>
 <br>
 
-
-
 <div class="page-title">
   <h2>Opinions</h2>
   <p class="lead">
@@ -17,11 +15,6 @@
 </div>
 
 <button class="btn btn-primary" id="add_opinion" (click)="clicked()">Add an opinion</button>
-<div class="labelErrorr" [hidden]="hideLabel" >
-  <br>
-  <label class="label-error" id="notLoggedIn" >Log in to add an opinion</label>
-  <br>
-</div>
 
 <div class="form-stuff" [hidden]="openForm">
   <form method="POST" #AddOpinionForm="ngForm" autocomplete="off">
@@ -43,8 +36,6 @@
     </div>
     <button class="btn btn-primary" id="button1" (click)="getData(name.value, city.value, type.value, opinion.value)" [disabled]="!AddOpinionForm.valid || isDisabled">Add opinion</button>
     <br>
-    <Label class="label-success" id="label-success" [hidden]="labelSuccessHidden">{{labelSuccessText}}</Label>
-    <Label class="label-error" id="label-error" [hidden]="labelErrorHidden">{{labelErrorText}}</Label>
     <div class="recaptcha-style">
         <app-recaptcha (callParent)="getMsgFromBaby()"></app-recaptcha>
     </div>

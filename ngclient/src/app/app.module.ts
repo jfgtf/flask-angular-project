@@ -132,7 +132,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
     MatPaginatorModule,
     MatSortModule,
     ToastrModule.forRoot({
-      timeOut:1000,
+      timeOut:2000,
       preventDuplicates: true
     })
   ],
