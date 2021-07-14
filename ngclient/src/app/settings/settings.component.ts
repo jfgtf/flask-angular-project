@@ -1,21 +1,49 @@
-import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, OnDestroy, DoCheck, OnChanges, Input } from '@angular/core';
+
+interface AppState{
+  message: string;
+}
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy, OnChanges   {
 
-  constructor(private cookieService: CookieService, private auth: AuthService) { }
+  message$: Observable<string>
 
-  public enabled1:boolean;
-  public enabled2:boolean;
-  public enabled3:boolean;
-  isLoggedIn: boolean = false;
-  user_id:any;
+  constructor(private store: Store<AppState>) {
+      this.message$ = this.store.select('message')
+  }
+
+  spanishMessage(){
+    this.store.dispatch({type: 'SPANISH'})
+  }
+
+  frenchMessage(){
+    this.store.dispatch({type: 'FRENCH'})
+  }
+ 
+  enabled1:boolean;
+  enabled2:boolean;
+  enabled3:boolean;
+  test = false;
+  
+  madeChanges:boolean;
+
+  ngOnChanges(){
+    this.madeChanges = true;
+    console.log(this.madeChanges)
+
+  }
+
+  clickedSave(){
+    console.log("s")
+  }
 
   clicked1e(){
     this.enabled1=true;
@@ -47,6 +75,11 @@ export class SettingsComponent implements OnInit {
     localStorage.setItem("setting3", "false");
   }
 
+  ngOnDestroy(){
+    console.log("destroy")
+
+  }
+
   ngOnInit(): void {
     if (localStorage.getItem("setting1") === null) {
       localStorage.setItem("setting1", "false");
@@ -75,5 +108,7 @@ export class SettingsComponent implements OnInit {
     else{
       this.enabled3=true;
     }
+    this.madeChanges = false;
+    console.log(this.madeChanges) 
   }
 }

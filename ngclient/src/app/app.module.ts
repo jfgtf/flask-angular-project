@@ -1,10 +1,20 @@
-import { LoadMapService } from './services/load-map.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AgmCoreModule } from '@agm/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataTableComponent } from './data-table/data-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { AppRoutingModule } from './app-routing.module';
+import { RecaptchaModule } from "ng-recaptcha";
+import { CookieService } from 'ngx-cookie-service';
+import { ToastrModule } from 'ngx-toastr';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtools } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
@@ -24,20 +34,14 @@ import { TablesComponent } from './tables/tables.component';
 import { ChildComponent } from './child/child.component';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { NewMapComponent } from './new-map/new-map.component';
-
-import { SortDirective } from './table/directive/sort.directive';
+import { TestComponent } from './test/test.component';
 
 import { AuthService } from './services/auth.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DataTableComponent } from './data-table/data-table.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { AppRoutingModule } from './app-routing.module';
-import { RecaptchaModule } from "ng-recaptcha";
-import { CookieService } from 'ngx-cookie-service';
-import { ToastrModule } from 'ngx-toastr';
+import { LoadMapService } from './services/load-map.service';
+import { SortDirective } from './table/directive/sort.directive';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { counterReducer } from './services/counter.reducer';
+import { simpleReducer } from './services/simple.reducer';
 
 
 @NgModule({
@@ -62,6 +66,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
     TablesComponent,
     ChildComponent,
     NewMapComponent,
+    TestComponent,
   ],
   imports: [
     FormsModule,
@@ -70,8 +75,9 @@ import { AuthInterceptor } from './services/auth.interceptor';
     RecaptchaModule,
     BrowserModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD6WQvbBUddYIN5o2wHrk4vJs-ZBT18StY'
+    StoreModule.forRoot({
+      message: simpleReducer,
+      count: counterReducer
     }),
     RouterModule.forRoot([
       {
@@ -119,9 +125,9 @@ import { AuthInterceptor } from './services/auth.interceptor';
         component: NewMapComponent
       },
       {
-        path: 'buttons', 
-        component: ButtonsComponent
-      },
+        path: 'test', 
+        component: TestComponent
+      },  
       {
         path: '**', 
         component: NotFoundComponent

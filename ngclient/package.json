@@ -25,6 +25,8 @@
     "@angular/platform-browser-dynamic": "~12.0.5",
     "@angular/router": "~12.0.5",
     "@googlemaps/js-api-loader": "^1.12.1",
+    "@ngrx/store": "^12.2.0",
+    "@ngrx/store-devtools": "^12.2.0",
     "angular-validation-match": "^1.9.0",
     "bower": "^1.8.12",
     "firebase": "^7.0 || ^8.0",
