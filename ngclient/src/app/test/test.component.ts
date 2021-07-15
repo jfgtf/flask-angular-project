@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { increment, decrement, reset } from '../services/counter.actions'
+import { Observable, Subject } from 'rxjs';
+import { increment, decrement, reset } from '../actions/counter.actions'
+
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-test',
@@ -16,8 +18,26 @@ export class TestComponent implements OnInit {
 
   text:string;
 
-  constructor(private store: Store<{ count: number }>) {
+ 
+  ngOnInit() {
+  }
+
+  constructor(private store: Store<{ count: number }>, private chatService: ChatService) {
     this.count$ = store.select('count');
+
+    chatService.messages.subscribe(msg => {
+      console.log(msg)
+    })
+  }
+
+  private message = {
+    author: 'elopomelo',
+    message: 'siema joł'
+  }
+
+  sendMessage(){
+    console.log("new message from client");
+    this.chatService.messages.next(this.message);
   }
  
   increment() {
@@ -31,8 +51,5 @@ export class TestComponent implements OnInit {
   reset() {
     this.store.dispatch(reset());
   } 
-
-  ngOnInit(): void {
-  }
 
 }

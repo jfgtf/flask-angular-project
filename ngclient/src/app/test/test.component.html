@@ -3,3 +3,20 @@
 <button class='btn' (click)="increment()">increment</button>
 <button class='btn' (click)="decrement()">decrement</button>
 <button class='btn' (click)="reset()">Reset</button>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<button class='btn' (click)="sendMessage()">Send Message</button>
+<br>
+<br>
+<br>
+<br>
+<div *ngFor="let movie of movies$ | async">
+    {{ movie.name }}
+</div>

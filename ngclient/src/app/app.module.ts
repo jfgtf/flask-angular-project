@@ -42,7 +42,8 @@ import { SortDirective } from './table/directive/sort.directive';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { counterReducer } from './services/counter.reducer';
 import { simpleReducer } from './services/simple.reducer';
-
+import { WebsocketService } from './services/websocket.service';
+import { ChatService } from './services/chat.service';
 
 @NgModule({
   declarations: [
@@ -146,6 +147,8 @@ import { simpleReducer } from './services/simple.reducer';
     AuthService, 
     CookieService, 
     LoadMapService,
+    ChatService,
+    WebsocketService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
