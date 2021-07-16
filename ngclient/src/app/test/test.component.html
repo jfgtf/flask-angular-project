@@ -17,6 +17,54 @@
 <br>
 <br>
 <br>
-<div *ngFor="let movie of movies$ | async">
-    {{ movie.name }}
+<form class="example-form">
+    <div class="example-full-width">
+        <label>username</label>
+        <input name='username' [(ngModel)]="newOpinion.username" matInput>
+    </div>
+
+    <div class="example-full-width">
+        <label>city</label>
+        <input name='city' [(ngModel)]="newOpinion.city_of_restaurant" matInput>
+    </div>
+
+    <div class="example-full-width">
+        <label>name</label>
+        <input name='name' [(ngModel)]="newOpinion.name_of_restaurant" matInput>
+    </div>
+
+    <div class="example-full-width">
+        <label>type_</label>
+        <input name='type_' [(ngModel)]="newOpinion.type_of_restaurant" matInput>
+    </div>
+
+    <div class="example-full-width">
+        <label>opinion</label>
+        <input name='opinion' [(ngModel)]="newOpinion.opinion" matInput>
+    </div>
+
+
+    <button (click)="addNewMovies()" class='btn' color="primary">Add Opinion</button>
+</form>
+
+<br>
+<br>
+<br>
+<br>
+<div class="show-stuff">
+    <li *ngFor="let opinion of opinions$ | async">
+      Opinion by: {{opinion.username}}
+      <br>
+      City: {{opinion.city_of_restaurant}}
+      <br>
+      Name: {{opinion.name_of_restaurant}}
+      <br>
+      Type: {{opinion.type_of_restaurant}}
+      <br>
+      Opinion:
+      <textarea class="show-opinion" cols="1" rows="10" [disabled]="true">{{opinion.opinion}}</textarea>
+      <br>
+    </li>
 </div>
+
+  

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../models/User';
+import { Observable, throwError } from 'rxjs';
+import { Opinion } from '../models/Opinion';
 import { MyToken } from '../models/MyToken';
+import { catchError, map } from 'rxjs/operators';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable({
@@ -33,6 +36,26 @@ export class AuthService {
   getOpinions(): Promise<any> {
     let url: string = "http://localhost:5000/api/opinions";
     return this.http.get(url, {headers: this.headers}).toPromise();
+  }
+
+  getOpinionsTest():  Observable<ReadonlyArray<Opinion>> {
+    let url: string = "http://localhost:5000/api/opinionstest";
+    return this.http.get<ReadonlyArray<Opinion>>(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      })
+    );
+  }
+
+  addOpinionsTest(opinion: Opinion): Observable<Opinion> {
+    let url: string = "http://localhost:5000/api/opinionstest";
+    return this.http.post<Opinion>(url, opinion).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(error);
+      })
+    );
   }
 
   getOpinionsByID(user_id:any): Promise<any> {

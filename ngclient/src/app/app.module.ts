@@ -1,3 +1,4 @@
+import { opinionReducer } from './services/opinion.reducer';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -14,7 +15,8 @@ import { RecaptchaModule } from "ng-recaptcha";
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtools } from '@ngrx/store-devtools';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 
 import { AppComponent } from './app.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
@@ -44,6 +46,7 @@ import { counterReducer } from './services/counter.reducer';
 import { simpleReducer } from './services/simple.reducer';
 import { WebsocketService } from './services/websocket.service';
 import { ChatService } from './services/chat.service';
+import { OpinionEffects } from './effects/opinion.effects';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,14 @@ import { ChatService } from './services/chat.service';
     AppRoutingModule,
     StoreModule.forRoot({
       message: simpleReducer,
-      count: counterReducer
+      count: counterReducer,
+      opinions: opinionReducer
+    }),
+    EffectsModule.forRoot(
+      [OpinionEffects]
+    ),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
     }),
     RouterModule.forRoot([
       {

@@ -18,7 +18,7 @@ export class ChatService {
 
   constructor(private wsService: WebsocketService) {
     this.messages = <Subject<Message>>wsService
-      .connect(environment.CHAT_URL)
+      .connect('ws://echo.websocket.org/')
       .pipe(map((response: MessageEvent): Message => {
         let data = JSON.parse(response.data)
         return {
