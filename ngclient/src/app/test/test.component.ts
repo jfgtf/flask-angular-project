@@ -22,6 +22,9 @@ export class TestComponent implements OnInit {
   opinions: Opinion[] = []; 
   opinions$ = this.store_op2.select('opinions');
   newOpinion: Opinion = new Opinion();
+  messages: Message[] = [];
+  public message_ : string;
+  public author_ : string;
 
   count$: Observable<number>
 
@@ -31,7 +34,7 @@ export class TestComponent implements OnInit {
     this.count$ = store.select('count');
 
     chatService.messages.subscribe(msg => {
-      console.log(msg)
+      this.messages.push(msg)
     })
   }
 
@@ -50,12 +53,13 @@ export class TestComponent implements OnInit {
   }
 
   private message = {
-    author: 'elopomelo',
-    message: 'siema joł'
+    author: 'test',
+    message: 'test'
   }
 
   sendMessage(){
-    console.log("new message from client");
+    this.message.author = this.author_;
+    this.message.message = this.message_;
     this.chatService.messages.next(this.message);
   }
  
@@ -71,4 +75,9 @@ export class TestComponent implements OnInit {
     this.store.dispatch(reset());
   } 
 
+}
+
+interface Message{
+  author:string;
+  message:string;
 }

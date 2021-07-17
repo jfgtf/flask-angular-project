@@ -9,6 +9,20 @@
 <br>
 <br>
 <br>
+<div class="show-stuff">
+    <li *ngFor="let message of messages">
+      Author: {{message.author}}
+      <br>
+      Message: {{message.message}}
+    </li>
+</div>
+<br>
+<br>
+<br>
+<input type="text" [(ngModel)]="author_">
+<br>
+<br>
+<input type="text" [(ngModel)]="message_">
 <br>
 <br>
 <br>
