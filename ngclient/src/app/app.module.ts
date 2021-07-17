@@ -47,6 +47,7 @@ import { simpleReducer } from './services/simple.reducer';
 import { WebsocketService } from './services/websocket.service';
 import { ChatService } from './services/chat.service';
 import { OpinionEffects } from './effects/opinion.effects';
+import { CensorshipPipe } from './pipes/censorship.pipe';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { OpinionEffects } from './effects/opinion.effects';
     ChildComponent,
     NewMapComponent,
     TestComponent,
+    CensorshipPipe,
   ],
   imports: [
     FormsModule,

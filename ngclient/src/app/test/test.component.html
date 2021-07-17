@@ -4,33 +4,21 @@
 <button class='btn' (click)="decrement()">decrement</button>
 <button class='btn' (click)="reset()">Reset</button>
 
-<br>
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br><br>
 <div class="show-stuff">
     <li *ngFor="let message of messages">
-      Author: {{message.author}}
+      Author: {{message.author | censorship}}
       <br>
-      Message: {{message.message}}
+      Message: {{message.message | censorship}}
     </li>
 </div>
-<br>
-<br>
-<br>
+<br><br><br>
 <input type="text" [(ngModel)]="author_">
-<br>
-<br>
+<br><br>
 <input type="text" [(ngModel)]="message_">
-<br>
-<br>
-<br>
+<br><br><br>
 <button class='btn' (click)="sendMessage()">Send Message</button>
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br>
 <form class="example-form">
     <div class="example-full-width">
         <label>username</label>
@@ -61,10 +49,7 @@
     <button (click)="addNewMovies()" class='btn' color="primary">Add Opinion</button>
 </form>
 
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br>
 <div class="show-stuff">
     <li *ngFor="let opinion of opinions$ | async">
       Opinion by: {{opinion.username}}
