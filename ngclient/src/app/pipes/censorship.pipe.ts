@@ -5,28 +5,22 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CensorshipPipe implements PipeTransform {
 
-  length4 = ["fuck", "dick"];
-  length5 = ["idiot"];
-  length6 = ["wanker"];
-  length7 = ["bastard"];
-  strLowerCased:string;
+  bad = ["fuck", "dick", "idiot", "wanker", "bastard"];
+
 
   transform(value: any, ...args: any): any {
-    this.strLowerCased = value.toLowerCase(); 
-    console.log(this.length4.includes(this.strLowerCased));
-    if (this.length4.includes(this.strLowerCased)){
-      return "****"
+    let strLowerCased = value.toLowerCase(); 
+    let splitted: string[]  = strLowerCased.split(" "); 
+    let censored: string = '';
+    for (let i in splitted){
+      for (let j in this.bad){
+        if (splitted[i].includes(this.bad[j])){
+          splitted[i] = "****";
+        }
+      }
+      censored += splitted[i] + " ";
     }
-    if (this.length5.includes(this.strLowerCased)){
-      return "*****"
-    }
-    if (this.length6.includes(this.strLowerCased)){
-      return "******"
-    }
-    if (this.length7.includes(this.strLowerCased)){
-      return "*******"
-    }
-    return value;
+    return censored;
   }
 
 }
