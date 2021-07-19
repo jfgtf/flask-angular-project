@@ -5,6 +5,17 @@
 <button class='btn' (click)="reset()">Reset</button>
 
 <br><br><br><br><br>
+<div style="display: block;">
+    <canvas baseChart
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [legend]="barChartLegend"
+    [type]="barChartType">
+   </canvas>
+ </div>
+  
+<br><br><br><br><br>
 <div class="show-stuff">
     <li *ngFor="let message of messages">
       Author: {{message.author | censorship}}

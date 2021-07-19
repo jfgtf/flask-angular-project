@@ -1,5 +1,5 @@
 import { getOpinions, addOpinions } from './../actions/opinion.action';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -10,6 +10,9 @@ import { ChatService } from '../services/chat.service';
 import { Opinion } from '../models/Opinion';
 import { OpinionState } from '../services/opinion.reducer';
 import { AuthService } from './../services/auth.service';
+
+import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { ChartsModule, baseColors } from 'ng2-charts';
 
 @Component({
   selector: 'app-test',
@@ -74,6 +77,26 @@ export class TestComponent implements OnInit {
   reset() {
     this.store.dispatch(reset());
   } 
+
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+
+  public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+  ];
+
+  public chartColors: Array<any> = [
+    { // all colors in order
+      backgroundColor: ['#d13537', '#b000b5', '#c0ffee']
+    }
+  ]
 
 }
 
